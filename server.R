@@ -77,8 +77,9 @@ shinyServer(function(input, output) {
     
 
     output$syn_dat <- DT::renderDataTable({
-        round(gen_dat(), 2)
-    }, width = "100%", options = list(scrollX = TRUE), selection = 'none')
+        dat <- gen_dat()
+        dat %>% mutate(across(where(is.numeric), round, digits = 2))
+    }, width = "100%", options = list(scrollX = TRUE), selection = 'none', server = TRUE)
     
     output$dwnload <- downloadHandler(
         filename = "synthetic_data.csv",
