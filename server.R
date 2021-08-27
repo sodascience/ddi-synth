@@ -21,6 +21,7 @@ shinyServer(function(input, output) {
             # validate url
             setProgress(detail = "Validating URL", value = 1/10)
             url <- parse_url(input$url)
+            if (is.null(url$scheme)) url$scheme <- "https"
             validate({
                 res <- tryCatch(HEAD(build_url(url)), error = function(e) stop("Enter a valid URL"))
                 if (!identical(status_code(res), 200L)) stop("Enter a valid URL.")
